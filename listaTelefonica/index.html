@@ -19,6 +19,11 @@
 		.form-control {
 			margin-bottom: 5px;
 		}
+
+		.checkbox-selecionada {
+			background-color: #F3FFBD !important;
+			font-weight: bold;
+		}
 	</style>
 
 	<script type="text/javascript" src="lib/angular/angular.js"></script>
@@ -29,15 +34,37 @@
 			$scope.app = "Lista Telefonica";
 
 			$scope.contatos = [
-				{nome: "Marcelo", telefone: "99998888"},
-				{nome: "Gabi", telefone: "99998877"},
-				{nome: "Pedro", telefone: "99998866"},
-				{nome: "Bruno", telefone: "99998855"}
+				{nome: "Marcelo", telefone: "9999-8888"},
+				{nome: "Gabi", telefone: "9999-8877"},
+				{nome: "Pedro", telefone: "9999-8866"},
+				{nome: "Bruno", telefone: "9999-8855"}
+			];
+
+			$scope.operadoras = [
+				{nome: "Oi", codigo: 14, categoria: "Celular"},
+				{nome: "Vivo", codigo: 15, categoria: "Celular"},
+				{nome: "Tim", codigo: 41, categoria: "Celular"},
+				{nome: "Oi", codigo: 14, categoria: "Fixo"},
+				{nome: "GVT", codigo: 25, categoria: "Fixo"}
 			];
 
 			$scope.adicionarContato = function(contato) {
 				$scope.contatos.push(contato);
 				delete $scope.contato;
+				$scope.contatoForm.$setPristine();
+			};
+
+			$scope.excluirContatos = function(contatos) {
+				$scope.contatos = contatos.filter(function(contato) {
+					if (!contato.selecionado)
+						return contato;
+				});
+			};
+
+			$scope.isContatoSelecionado = function(contatos) {
+				return contatos.some(function(contato) {
+					return contato.selecionado;
+				});
 			};
 		});
 	</script>
@@ -48,25 +75,52 @@
 	<div class="jumbotron">
 		<h4>{{app}}</h4>
 
-		<table class="table table-striped">
+		<table class="table table-striped" ng-show="contatos.length > 0">
 			<thead>
 				<tr>
+					<th class="col-md-1"></th>
 					<th class="text-center col-md-2">Nome</th>
 					<th class="text-center col-md-2">Telefone</th>
+					<th class="text-center col-md-2">Operadora</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="contato in contatos">
+				<tr ng-class="{'checkbox-selecionada': contato.selecionado}" ng-repeat="contato in contatos">
+					<td><input type="checkbox" ng-model="contato.selecionado" /></td>
 					<td>{{contato.nome}}</td>
 					<td>{{contato.telefone}}</td>
+					<td>{{contato.operadora.nome}}</td>
 				</tr>
 			</tbody>
 		</table>
 
-		<input type="text" class="form-control" placeholder="Nome" ng-model="contato.nome" />
-		<input type="text" class="form-control" placeholder="Telefone" ng-model="contato.telefone" />
-
-		<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)">Adicionar</button>
+		<form name="contatoForm">
+			<input type="text" name="nome" class="form-control" placeholder="Nome" ng-model="contato.nome" 
+				ng-required="true" ng-maxlength="20" />
+			<div class="alert alert-danger" ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty">
+				Nome é obrigatório</div>
+			<div class="alert alert-danger" ng-show="contatoForm.nome.$error.maxlength">
+				Nome deve conter até 20 caracteres</div>
+			
+			<input type="text" name="telefone" class="form-control" placeholder="Telefone" ng-model="contato.telefone" 
+				ng-required="true" ng-maxlength="15" ng-pattern="/^(\+\d{2} )?(\(\d{2}\) )?\d{4,5}-\d{4}$/" />
+			<div class="alert alert-danger" ng-show="contatoForm.telefone.$error.required && contatoForm.telefone.$dirty">
+				Telefone é obrigatório</div>
+			<div class="alert alert-danger" ng-show="contatoForm.telefone.$error.maxlength">
+				Telefone deve conter até 15 caracteres</div>
+			<div class="alert alert-danger" ng-show="contatoForm.telefone.$error.pattern">
+				Telefone deve ser neste formato XXXX-XXXX</div>
+			
+			<select class="form-control" ng-model="contato.operadora" 
+				ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+				<option value="">Selecione uma operadora</option>
+			</select>
+		</form>
+		<button class="btn btn-primary btn-block" 
+			ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid">Adicionar</button>
+		
+		<button class="btn btn-danger btn-block" 
+			ng-click="excluirContatos(contatos)" ng-show="isContatoSelecionado(contatos)">Excluir</button>
 	</div>
 
 </body>
