@@ -1,0 +1,9 @@
+/home/marcelo/workspaces/Spring/listaTelefonica/src/main/java/com/mcanzian/listaTelefonica/repository/ContatoRepository.java
+/home/marcelo/workspaces/Spring/listaTelefonica/src/main/java/com/mcanzian/listaTelefonica/model/Operadora.java
+/home/marcelo/workspaces/Spring/listaTelefonica/src/main/java/com/mcanzian/listaTelefonica/ServletInitializer.java
+/home/marcelo/workspaces/Spring/listaTelefonica/src/main/java/com/mcanzian/listaTelefonica/model/Categoria.java
+/home/marcelo/workspaces/Spring/listaTelefonica/src/main/java/com/mcanzian/listaTelefonica/model/Contato.java
+/home/marcelo/workspaces/Spring/listaTelefonica/src/main/java/com/mcanzian/listaTelefonica/ListaTelefonicaApplication.java
+/home/marcelo/workspaces/Spring/listaTelefonica/src/main/java/com/mcanzian/listaTelefonica/controller/ContatoController.java
+/home/marcelo/workspaces/Spring/listaTelefonica/src/main/java/com/mcanzian/listaTelefonica/repository/OperadoraRepositoy.java
+/home/marcelo/workspaces/Spring/listaTelefonica/src/main/java/com/mcanzian/listaTelefonica/controller/OperadoraController.java

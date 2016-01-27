@@ -6,68 +6,11 @@
 	<title>Lista Telefonica</title>
 
 	<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
-	<style type="text/css">
-		.jumbotron {
-			width: 400px;
-			text-align: center;
-			margin: 0 auto;
-			margin-top: 20px;
-			padding-left: 20px;
-			padding-right: 20px;
-		}
-
-		.form-control {
-			margin-bottom: 5px;
-		}
-
-		.checkbox-selecionada {
-			background-color: #F3FFBD !important;
-			font-weight: bold;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 
 	<script type="text/javascript" src="lib/angular/angular.js"></script>
-	<script type="text/javascript">
-		angular.module("listaTelefonica", []);
-		
-		angular.module("listaTelefonica").controller("listaTelefonicaController", function($scope) {
-			$scope.app = "Lista Telefonica";
-
-			$scope.contatos = [
-				{nome: "Marcelo", telefone: "9999-8888"},
-				{nome: "Gabi", telefone: "9999-8877"},
-				{nome: "Pedro", telefone: "9999-8866"},
-				{nome: "Bruno", telefone: "9999-8855"}
-			];
-
-			$scope.operadoras = [
-				{nome: "Oi", codigo: 14, categoria: "Celular"},
-				{nome: "Vivo", codigo: 15, categoria: "Celular"},
-				{nome: "Tim", codigo: 41, categoria: "Celular"},
-				{nome: "Oi", codigo: 14, categoria: "Fixo"},
-				{nome: "GVT", codigo: 25, categoria: "Fixo"}
-			];
-
-			$scope.adicionarContato = function(contato) {
-				$scope.contatos.push(contato);
-				delete $scope.contato;
-				$scope.contatoForm.$setPristine();
-			};
-
-			$scope.excluirContatos = function(contatos) {
-				$scope.contatos = contatos.filter(function(contato) {
-					if (!contato.selecionado)
-						return contato;
-				});
-			};
-
-			$scope.isContatoSelecionado = function(contatos) {
-				return contatos.some(function(contato) {
-					return contato.selecionado;
-				});
-			};
-		});
-	</script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/controllers/listaTelefonicaController.js"></script>
 </head>
 
 <body ng-controller="listaTelefonicaController">
@@ -75,24 +18,35 @@
 	<div class="jumbotron">
 		<h4>{{app}}</h4>
 
-		<table class="table table-striped" ng-show="contatos.length > 0">
-			<thead>
-				<tr>
-					<th class="col-md-1"></th>
-					<th class="text-center col-md-2">Nome</th>
-					<th class="text-center col-md-2">Telefone</th>
-					<th class="text-center col-md-2">Operadora</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-class="{'checkbox-selecionada': contato.selecionado}" ng-repeat="contato in contatos">
-					<td><input type="checkbox" ng-model="contato.selecionado" /></td>
-					<td>{{contato.nome}}</td>
-					<td>{{contato.telefone}}</td>
-					<td>{{contato.operadora.nome}}</td>
-				</tr>
-			</tbody>
-		</table>
+		<div ng-show="contatos.length > 0">
+		<input type="text" class="form-control" placeholder="Pesquisar" ng-model="filtroDePesquisa">
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="col-md-1"></th>
+						<th class="text-center col-md-2">
+							<a href="" ng-click="ordenarPor('nome')"> Nome </a>
+						</th>
+						<th class="text-center col-md-2">
+							<a href="" ng-click="ordenarPor('telefone')"> Telefone </a>
+						</th>
+						<th class="text-center col-md-2">
+							<a href="" ng-click="ordenarPor('operadora')"> Operadora </a>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-class="{'checkbox-selecionada': contato.selecionado}" 
+						ng-repeat="contato in contatos | filter: filtroDePesquisa | orderBy: criterio:direcao">
+						<td><input type="checkbox" ng-model="contato.selecionado" /></td>
+						<td>{{contato.nome}}</td>
+						<td>{{contato.telefone}}</td>
+						<td>{{contato.operadora.nome}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
 		<form name="contatoForm">
 			<input type="text" name="nome" class="form-control" placeholder="Nome" ng-model="contato.nome" 
@@ -112,7 +66,7 @@
 				Telefone deve ser neste formato XXXX-XXXX</div>
 			
 			<select class="form-control" ng-model="contato.operadora" 
-				ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+				ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy: 'nome'">
 				<option value="">Selecione uma operadora</option>
 			</select>
 		</form>

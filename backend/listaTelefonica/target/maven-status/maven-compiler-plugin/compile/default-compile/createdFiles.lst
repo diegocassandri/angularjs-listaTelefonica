@@ -1,0 +1,9 @@
+com/mcanzian/listaTelefonica/repository/OperadoraRepositoy.class
+com/mcanzian/listaTelefonica/model/Categoria.class
+com/mcanzian/listaTelefonica/ServletInitializer.class
+com/mcanzian/listaTelefonica/ListaTelefonicaApplication.class
+com/mcanzian/listaTelefonica/controller/OperadoraController.class
+com/mcanzian/listaTelefonica/repository/ContatoRepository.class
+com/mcanzian/listaTelefonica/model/Contato.class
+com/mcanzian/listaTelefonica/controller/ContatoController.class
+com/mcanzian/listaTelefonica/model/Operadora.class
