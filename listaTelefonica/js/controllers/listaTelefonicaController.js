@@ -1,14 +1,11 @@
-angular.module("listaTelefonica").controller("listaTelefonicaController", function($scope, $http) {
-	var URL_CONTATOS = "http://localhost:8080/contatos";
-	var URL_OPERADORAS = "http://localhost:8080/operadoras";
-
+angular.module("listaTelefonica").controller("listaTelefonicaController", function($scope, contatosService, operadorasService) {
 	$scope.app = "Lista Telefonica";
 
 	$scope.contatos = [];
 	$scope.operadoras = [];
 
 	$scope.adicionarContato = function(contato) {
-		$http.post(URL_CONTATOS, contato).success(function(data) {
+		contatosService.salvar(contato).success(function(data) {
 			delete $scope.contato;
 			$scope.contatoForm.$setPristine();
 			carregarContatos();
@@ -34,13 +31,13 @@ angular.module("listaTelefonica").controller("listaTelefonicaController", functi
 	};
 
 	var carregarContatos = function() {
-		$http.get(URL_CONTATOS).success(function(data) {
+		contatosService.listar().success(function(data) {
 			$scope.contatos = data;
 		});
 	};
 
 	var carregarOperadoras = function() {
-		$http.get(URL_OPERADORAS).success(function(data) {
+		operadorasService.listar().success(function(data) {
 			$scope.operadoras = data;
 		});
 	};
