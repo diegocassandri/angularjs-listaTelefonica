@@ -33,6 +33,8 @@ angular.module("listaTelefonica").controller("listaTelefonicaController", functi
 	var carregarContatos = function() {
 		contatosService.listar().success(function(data) {
 			$scope.contatos = data;
+		}).error(function() {
+			$scope.erro = "Não foi possível carregar os contatos";
 		});
 	};
 

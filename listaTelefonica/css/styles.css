@@ -15,3 +15,20 @@
 	background-color: #F3FFBD !important;
 	font-weight: bold;
 }
+
+.ui-alert {
+	color: #AF4341;
+	background-color: #F2DEDE;
+	padding: 20px;
+	border-radius: 5px;
+	margin: 20px 0;
+}
+
+.ui-alert-title {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.ui-alert-message {
+	font-size: 14px;
+}
