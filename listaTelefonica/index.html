@@ -14,6 +14,7 @@
 	<script type="text/javascript" src="js/controllers/listaTelefonicaController.js"></script>
 	<script type="text/javascript" src="js/services/contatosService.js"></script>
 	<script type="text/javascript" src="js/services/operadorasService.js"></script>
+	<script type="text/javascript" src="js/filters/nameFilter.js"></script>
 </head>
 
 <body ng-controller="listaTelefonicaController">
@@ -43,7 +44,7 @@
 					<tr ng-class="{'checkbox-selecionada': contato.selecionado}" 
 						ng-repeat="contato in contatos | filter: filtroDePesquisa | orderBy: criterio:direcao">
 						<td><input type="checkbox" ng-model="contato.selecionado" /></td>
-						<td>{{contato.nome}}</td>
+						<td>{{contato.nome | name}}</td>
 						<td>{{contato.telefone}}</td>
 						<td>{{contato.operadora.nome}}</td>
 					</tr>
